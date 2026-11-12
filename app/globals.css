@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --color-ink: #16181d;
+  --color-forest: #000000;
+  --color-pine: #1a2740;
+  --color-gold: #e4c36a;
+  --color-gold-soft: #f6e2a8;
+  --color-cream: #f4efe6;
+  --color-paper: #f7f5f1;
+  --color-sand: #e7e1d6;
+  --color-mist: #5c6570;
+  --color-line: #e4ddd2;
+}
+
+.site {
+  --color-ink: #f6f3ea;
+  --color-paper: #000000;
+  --color-cream: #000000;
+  --color-forest: #000000;
+  --color-pine: #e4c36a;
+  --color-mist: #c8c4b8;
+  --color-line: rgba(255, 255, 255, 0.14);
+  --color-sand: #111111;
+  --color-gold: #e4c36a;
+  --color-gold-soft: #f6e2a8;
+  background: #000000;
+  color: #f6f3ea;
+}
+
+.site :where(a, button).bg-gold {
+  color: #1a1408;
+}
+
+.site :where(a, button).bg-ink {
+  background-color: #e31c23;
+  color: #fff;
+}
+
+.site :where(a, button).bg-ink:hover {
+  background-color: #ff3b42;
+}
+
+.site .bg-white {
+  background-color: #111111;
+  color: #f6f3ea;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000000;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-ink);
+}
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 80;
+  background: white;
+  color: var(--color-ink);
+  padding: 0.6rem 0.9rem;
+}
+
+.skip:focus {
+  top: 1rem;
+}
+
+.display {
+  font-family: var(--font-serif);
+  font-size: clamp(3.15rem, 7.4vw, 6.6rem);
+  font-weight: 460;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 560;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.prose-wd {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.prose-wd :where(p, ul, ol, blockquote) {
+  margin: 1rem 0;
+}
+
+.prose-wd :where(h2, h3) {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-top: 2rem;
+}
+
+.prose-wd :where(h2) {
+  font-size: 2rem;
+}
+
+.prose-wd :where(h3) {
+  font-size: 1.4rem;
+}
+
+.prose-wd :where(ul, ol) {
+  padding-left: 1.2rem;
+}
+
+.prose-wd :where(ul) {
+  list-style: disc;
+}
+
+.prose-wd :where(ol) {
+  list-style: decimal;
+}
+
+.prose-wd :where(a) {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-wd :where(blockquote) {
+  border-left: 2px solid var(--color-gold);
+  color: var(--color-mist);
+  padding-left: 1rem;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+  background: white;
+  border-radius: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  color: #16160f;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 28%, transparent);
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.admin-card {
+  border: 1px solid var(--color-line);
+  background: white;
+  border-radius: 1.1rem;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise {
+    animation: none !important;
+  }
+}
+
+.rise {
+  animation: rise 0.7s ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

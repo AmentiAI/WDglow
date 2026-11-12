@@ -1,0 +1,55 @@
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Outfit } from "next/font/google";
+import { siteUrl } from "@/lib/utils";
+import "./globals.css";
+
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const fraunces = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-fraunces" });
+
+const description =
+  "WDGLOW designs, installs, maintains, and removes Christmas lights for homes and businesses in Westerly, across Rhode Island, and through Connecticut.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
+  title: {
+    default: "Christmas Light Installation in Westerly, RI | WDGLOW",
+    template: "%s | WDGLOW",
+  },
+  description,
+  applicationName: "WDGLOW",
+  authors: [{ name: "WDGLOW", url: siteUrl() }],
+  creator: "WDGLOW",
+  category: "Christmas light installation",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "WDGLOW",
+    title: "Christmas Light Installation in Westerly, Rhode Island",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Christmas Light Installation in Westerly, RI | WDGLOW",
+    description,
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${outfit.variable} ${fraunces.variable}`}>
+      <body className="antialiased">
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
+        {children}
+      </body>
+    </html>
+  );
+}
