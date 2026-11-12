@@ -80,6 +80,13 @@ export function Footer({ settings }: { settings: PublicSettings }) {
               {settings.city}, {settings.state} {settings.zip}
             </li>
             <li>{settings.hours}</li>
+            {settings.facebook ? (
+              <li>
+                <a href={settings.facebook} target="_blank" rel="nofollow noopener noreferrer" className="hover:text-white">
+                  Facebook
+                </a>
+              </li>
+            ) : null}
             <li>
               <Link href="/contact" className="hover:text-white">
                 Request a quote

@@ -56,6 +56,16 @@ export default async function ContactPage({
               </a>
             </dd>
           </div>
+          {settings.facebook ? (
+            <div>
+              <dt className="text-mist">Facebook</dt>
+              <dd>
+                <a className="text-lg" href={settings.facebook} target="_blank" rel="nofollow noopener noreferrer">
+                  WD Glow on Facebook
+                </a>
+              </dd>
+            </div>
+          ) : null}
           <div>
             <dt className="text-mist">Hours</dt>
             <dd>{settings.hours}</dd>
