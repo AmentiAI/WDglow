@@ -37,7 +37,7 @@ export default function ServiceAreasPage() {
           From local neighborhoods to surrounding communities, we bring beautiful, customized holiday lighting to homes and businesses.
         </p>
         <p>
-          <Link href="/contact" className="font-semibold text-[#e4c36a]">
+          <Link href="/contact" className="font-semibold text-[#ff3b3b]">
             Contact us today
           </Link>{" "}
           for a free quote and to confirm availability in your area!

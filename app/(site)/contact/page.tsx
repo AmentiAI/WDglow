@@ -29,7 +29,7 @@ export default async function ContactPage({
         <p className="mt-4 text-lg leading-8 text-mist">
           Our team will review your request, discuss your lighting options, and confirm available installation dates.
         </p>
-        <p className="mt-6 text-sm font-semibold tracking-[0.12em] text-[#e4c36a] uppercase">
+        <p className="mt-6 text-sm font-semibold tracking-[0.12em] text-[#ff3b3b] uppercase">
           Free Quotes • Transparent Pricing • Professional Installation
         </p>
         <dl className="mt-8 grid gap-4 text-sm">

@@ -1,24 +1,88 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { FaqList } from "@/components/site/Blocks";
+import {
+  BuildingIcon,
+  BulbIcon,
+  CalendarIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  CycleIcon,
+  DiamondIcon,
+  HomeIcon,
+  PlayIcon,
+  ShieldIcon,
+  StarIcon,
+  UsersIcon,
+} from "@/components/site/Icons";
 import { JsonLd } from "@/components/site/JsonLd";
-import { QuoteForm } from "@/components/site/QuoteForm";
-import { faqs } from "@/lib/faq";
 import { places } from "@/lib/places";
-import { getPublishedPosts, getPublishedTestimonials } from "@/lib/queries";
+import { getPublishedTestimonials } from "@/lib/queries";
 import { breadcrumbSchema, faqSchema, localBusinessSchema } from "@/lib/schema";
-import { services } from "@/lib/services";
+import { faqs } from "@/lib/faq";
 import { getSettings } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: { absolute: "Christmas Light Installation in Westerly, RI | WDGLOW" },
   description:
-    "WDGLOW installs, maintains, and removes Christmas lights for homes and businesses in Westerly, Rhode Island, and Connecticut.",
+    "WD Glow installs, maintains, and removes Christmas lights for homes and businesses in Westerly, Rhode Island, and Connecticut.",
   alternates: { canonical: "/" },
 };
 
-const strip = [
+const checklist = [
+  "Custom Lighting Designs",
+  "Professional Installation",
+  "Seasonal Maintenance",
+  "Light Removal & Storage",
+];
+
+const iconBar = [
+  { label: "Residential Lighting", Icon: HomeIcon, href: "/services/residential-installation" },
+  { label: "Commercial Lighting", Icon: BuildingIcon, href: "/services/commercial-holiday-lighting" },
+  { label: "Custom Designs", Icon: BulbIcon, href: "/services/custom-displays" },
+  { label: "Seasonal Maintenance", Icon: CalendarIcon, href: "/services/seasonal-maintenance" },
+  { label: "Professional Removal", Icon: CycleIcon, href: "/services/takedown-and-storage" },
+];
+
+const whyPoints = [
+  { title: "Reliable Service", body: "Clear quotes and scheduled install dates.", Icon: ShieldIcon },
+  { title: "High-Quality Materials", body: "Commercial-grade LEDs and surface-safe clips.", Icon: StarIcon },
+  { title: "Local Team RI & CT", body: "Based in Westerly, serving both states.", Icon: UsersIcon },
+  { title: "Stunning Results", body: "Designs that fit the house, not a catalog.", Icon: DiamondIcon },
+];
+
+const serviceCards = [
+  {
+    title: "Residential Lighting",
+    href: "/services/residential-installation",
+    image: "/photos/brick-house.jpg",
+    alt: "Brick house with warm white holiday lights along the roofline and entry at night",
+    Icon: HomeIcon,
+  },
+  {
+    title: "Commercial Lighting",
+    href: "/services/commercial-holiday-lighting",
+    image: "/gallery/placeholder-storefront.jpg",
+    alt: "Example storefront holiday lighting style. Not a completed WD Glow installation.",
+    Icon: BuildingIcon,
+  },
+  {
+    title: "Custom Designs",
+    href: "/services/custom-displays",
+    image: "/gallery/placeholder-tree.jpg",
+    alt: "Example tree lighting style. Not a completed WD Glow installation.",
+    Icon: BulbIcon,
+  },
+  {
+    title: "Installation & Removal",
+    href: "/services/takedown-and-storage",
+    image: "/gallery/placeholder-roofline.jpg",
+    alt: "Example roofline lighting style. Not a completed WD Glow installation.",
+    Icon: CycleIcon,
+  },
+];
+
+const townStrip = [
   "westerly-ri",
   "watch-hill-ri",
   "misquamicut-ri",
@@ -29,29 +93,11 @@ const strip = [
   "narragansett-ri",
   "newport-ri",
   "providence-ri",
-  "east-greenwich-ri",
-  "charlestown-ri",
 ];
 
-const steps = [
-  ["Consult", "Photos or a walk of the house. We choose the lines, the color, and what stays dark."],
-  ["Quote", "A written number. Nothing goes on the calendar until you accept it."],
-  ["Install", "Clips, lamps, and a timer. You know the on and off times before we leave."],
-  ["Removal", "January, on the date we booked with the install. Off the house, labeled, coiled."],
-];
-
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
-  const params = await searchParams;
-  const [settings, testimonials, posts] = await Promise.all([
-    getSettings(),
-    getPublishedTestimonials(),
-    getPublishedPosts(),
-  ]);
-  const featuredTowns = strip
+export default async function HomePage() {
+  const [settings, testimonials] = await Promise.all([getSettings(), getPublishedTestimonials()]);
+  const featuredTowns = townStrip
     .map((slug) => places.find((place) => place.slug === slug))
     .filter((place) => place !== undefined);
 
@@ -61,98 +107,158 @@ export default async function HomePage({
       <JsonLd data={faqSchema(faqs.slice(0, 6))} />
       <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }])} />
 
-      <section className="relative min-h-[78vh] overflow-hidden">
+      <section className="relative min-h-[min(72vh,640px)] overflow-hidden">
         <Image
-          src="/photos/hero-mansion.jpg"
-          alt="A grand house traced in warm holiday lights at night, reflected in still water."
+          src="/photos/hero-snow-house.jpg"
+          alt="A two-story home outlined in warm holiday lights at night, with snow on the lawn and a wreath on the door."
           fill
           priority
-          className="object-cover object-[center_30%]"
+          className="object-cover object-[center_35%]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black/60 md:bg-transparent md:bg-gradient-to-r md:from-black/80 md:via-black/45 md:to-black/15" />
-        <div className="relative z-10 mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-center px-5 py-10 md:py-16">
-          <p className="max-w-3xl text-[11px] font-semibold tracking-[0.16em] text-[#ffe7a3] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:text-xs sm:tracking-[0.18em]">
-            Professional Christmas Light Installation | Rhode Island & Connecticut
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+        <div className="relative z-10 mx-auto flex min-h-[min(72vh,640px)] max-w-7xl flex-col justify-center px-5 py-12 sm:px-6 md:py-16">
+          <p className="font-display text-sm font-bold tracking-[0.28em] text-white uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">
+            Professional
           </p>
-          <h1 className="mt-4 max-w-4xl font-serif text-[2.35rem] leading-[1.04] font-medium text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.85)] sm:text-5xl md:mt-5 md:text-6xl">
-            Transform Your Property Into a Holiday Masterpiece.
+          <h1 className="mt-2 max-w-4xl font-display text-[2.35rem] leading-[0.95] font-black tracking-tight text-white uppercase italic drop-shadow-[0_4px_18px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+            Christmas Light{" "}
+            <span className="red-glow-text">Installation</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:mt-6 md:text-lg md:leading-8">
-            Bring the magic of Christmas to your home or business with WD Glow&apos;s professional holiday lighting services. From custom design and expert installation to seasonal maintenance and removal, we handle every detail so you can enjoy a beautiful, stress-free holiday season.
+          <p className="mt-5 max-w-xl text-base leading-7 text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:text-lg md:leading-8">
+            Bringing Holiday Magic to Homes &amp; Businesses Across RI &amp; CT
           </p>
-          <p className="mt-4 font-serif text-xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:mt-6 md:text-3xl">
-            Make Your Holidays Shine with WD Glow.
-          </p>
-          <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap md:mt-8">
-            <Link href="/contact" className="rounded-full bg-[#e4c36a] px-6 py-3.5 text-center text-sm font-semibold text-[#1a1408]">
-              Get a free quote
+          <ul className="mt-7 grid max-w-md gap-2.5">
+            {checklist.map((item) => (
+              <li key={item} className="flex items-center gap-3 text-sm font-medium text-white sm:text-base">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#ff2b2b] text-white shadow-[0_0_14px_rgba(255,40,40,0.55)]">
+                  <CheckIcon className="h-3.5 w-3.5" />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link href="/contact" className="btn-glow px-6 py-3.5 text-sm">
+              <CalendarIcon className="h-4 w-4" />
+              Get a Free Quote
+              <ChevronRightIcon className="h-4 w-4" />
             </Link>
-            <Link href="/service-areas" className="rounded-full border border-white/40 bg-black/20 px-6 py-3.5 text-center text-sm font-semibold text-white backdrop-blur-sm">
-              See service areas
+            <Link href="/gallery" className="btn-outline px-6 py-3.5 text-sm">
+              <PlayIcon className="h-4 w-4" />
+              View Our Work
             </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="border-b border-white/10">
-        <div className="mx-auto grid max-w-6xl gap-px bg-white/10 sm:grid-cols-3">
-          {[
-            ["Based in", "Westerly, Rhode Island"],
-            ["Working across", "Rhode Island and Connecticut"],
-            ["Taken down", "January, booked with the install"],
-          ].map(([label, value]) => (
-            <div key={label} className="bg-black px-5 py-8">
-              <p className="text-xs font-semibold tracking-[0.22em] text-[#e4c36a] uppercase">{label}</p>
-              <p className="mt-2 font-serif text-2xl text-white md:text-3xl">{value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-xl">
-            <p className="eyebrow text-[#e4c36a]">Services</p>
-            <h2 className="mt-3 font-serif text-4xl leading-[1.02] text-white md:text-6xl">The whole season, one crew.</h2>
-          </div>
-          <Link href="/services" className="text-sm font-semibold text-[#e4c36a]">
-            All services
-          </Link>
-        </div>
-        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <Link
-              key={service.slug}
-              href={`/services/${service.slug}`}
-              className="group flex min-h-56 flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-[#e4c36a]/70 hover:bg-white/[0.06]"
-            >
-              <span className="text-xs font-semibold tracking-[0.2em] text-[#e4c36a]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="mt-5 font-serif text-3xl leading-tight text-white">{service.name}</span>
-              <span className="mt-3 text-sm leading-6 text-white/60">{service.result}</span>
-              <span className="mt-auto pt-6 text-sm font-semibold text-white/80 group-hover:text-[#e4c36a]">View</span>
-            </Link>
-          ))}
         </div>
       </section>
 
       <section className="border-y border-white/10 bg-black">
-        <div className="mx-auto max-w-6xl px-5 py-20 md:py-24">
-          <p className="eyebrow text-[#e4c36a]">Our Home Market</p>
-          <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.02] text-white md:text-6xl">
-            Proudly Serving Westerly, Rhode Island & Beyond
+        <div className="glow-rule" />
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-8 sm:grid-cols-3 sm:px-6 md:grid-cols-5 md:gap-4 md:py-10">
+          {iconBar.map(({ label, Icon, href }) => (
+            <Link key={label} href={href} className="group grid justify-items-center gap-3 text-center">
+              <span className="grid h-12 w-12 place-items-center text-[#ff3434] transition group-hover:scale-105 group-hover:text-[#ff5a5a]">
+                <Icon className="h-9 w-9 drop-shadow-[0_0_12px_rgba(255,40,40,0.55)]" />
+              </span>
+              <span className="text-xs font-semibold tracking-wide text-white/90 sm:text-sm">{label}</span>
+            </Link>
+          ))}
+        </div>
+        <div className="glow-rule" />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 md:py-24">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <Link href="/gallery" className="group relative block overflow-hidden rounded-2xl border border-white/15">
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="/photos/night.jpg"
+                alt="Home entry and porch lit with warm holiday lights at night"
+                fill
+                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+              />
+              <div className="absolute inset-0 bg-black/25" />
+              <span className="absolute inset-0 grid place-items-center">
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/40 bg-black/50 text-white shadow-[0_0_30px_rgba(255,40,40,0.35)] backdrop-blur-sm">
+                  <PlayIcon className="h-7 w-7" />
+                </span>
+              </span>
+            </div>
+          </Link>
+          <div>
+            <h2 className="font-display text-3xl font-black tracking-tight text-white uppercase italic sm:text-4xl md:text-5xl">
+              Why Choose <span className="red-glow-text">WD Glow?</span>
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/75 md:text-lg md:leading-8">
+              At WD Glow, we make holiday lighting simple and stress-free. From custom design and professional installation to seasonal maintenance and January removal, every detail is planned so your property looks its best all season long.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {whyPoints.map(({ title, body, Icon }) => (
+                <div key={title} className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                  <Icon className="mt-0.5 h-6 w-6 shrink-0 text-[#ff3434]" />
+                  <div>
+                    <p className="text-sm font-bold text-white">{title}</p>
+                    <p className="mt-1 text-xs leading-5 text-white/60">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-[#07080c]">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 md:py-24">
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-black tracking-tight text-white uppercase italic sm:text-4xl md:text-5xl">
+              Our Services
+            </h2>
+            <div className="mx-auto mt-4 w-40">
+              <div className="glow-rule" />
+            </div>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {serviceCards.map(({ title, href, image, alt, Icon }) => (
+              <Link key={title} href={href} className="group overflow-hidden rounded-2xl border border-white/12 bg-black">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={image}
+                    alt={alt}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-center gap-2.5 p-4">
+                    <Icon className="h-5 w-5 text-[#ff3434]" />
+                    <span className="font-display text-sm font-bold tracking-wide text-white uppercase">{title}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/services" className="text-sm font-semibold text-[#ff5a5a] hover:text-[#ff7a7a]">
+              View all services
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 md:py-20">
+          <p className="eyebrow text-[#ff5a5a]">Our Home Market</p>
+          <h2 className="mt-3 max-w-3xl font-display text-3xl font-black tracking-tight text-white uppercase italic md:text-5xl">
+            Proudly Serving Westerly, Rhode Island &amp; Beyond
           </h2>
-          <div className="mt-6 max-w-3xl space-y-4 text-lg leading-8 text-white/70">
+          <div className="mt-5 max-w-3xl space-y-4 text-base leading-7 text-white/70 md:text-lg md:leading-8">
             <p>
               Based in Westerly, WD Glow proudly serves Watch Hill, Misquamicut, Weekapaug, Pawcatuck, and surrounding communities, with service extending throughout Rhode Island and Connecticut.
             </p>
             <p>
               From coastal cottages and historic homes to large residential properties and commercial buildings, we create customized holiday lighting displays designed to complement each property&apos;s unique character.
-            </p>
-            <p>
-              Wherever you&apos;re located, our goal is the same: exceptional service, professional installation, and stunning holiday lighting.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-2">
@@ -160,59 +266,26 @@ export default async function HomePage({
               <Link
                 key={place.slug}
                 href={`/service-areas/${place.slug}`}
-                className="rounded-full border border-white/15 px-4 py-2 text-sm text-white/85 hover:border-[#e4c36a] hover:text-[#e4c36a]"
+                className="rounded-full border border-white/15 px-4 py-2 text-sm text-white/85 hover:border-[#ff3b3b] hover:text-white"
               >
                 {place.name}
               </Link>
             ))}
-            <Link href="/service-areas" className="rounded-full bg-[#e4c36a] px-4 py-2 text-sm font-semibold text-[#1a1408]">
+            <Link href="/service-areas" className="btn-glow px-4 py-2 text-xs">
               All areas
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <p className="eyebrow text-[#e4c36a]">How a job runs</p>
-        <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.02] text-white md:text-6xl">
-          Takedown is booked before the first clip goes up.
-        </h2>
-        <ol className="mt-12 grid gap-10 md:grid-cols-4">
-          {steps.map(([title, body], index) => (
-            <li key={title}>
-              <p className="font-serif text-5xl text-[#e4c36a]">0{index + 1}</p>
-              <h3 className="mt-4 text-xl font-semibold text-white">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/60">{body}</p>
-            </li>
-          ))}
-        </ol>
-        <Link href="/process" className="mt-10 inline-block text-sm font-semibold text-[#e4c36a]">
-          Read the full process
-        </Link>
-      </section>
-
-      <section className="border-y border-white/10">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 lg:grid-cols-4">
-          {[
-            ["Clips, not nails", "We fasten to the surface that can hold a clip. We do not nail through roofing."],
-            ["One color", "Warm white or color, chosen before we order the run."],
-            ["A timer", "On when you want them. Off when you do not. Set before we leave."],
-            ["January", "Removal is on the calendar with the install. Clips come off with the wire."],
-          ].map(([title, body]) => (
-            <article key={title}>
-              <h3 className="font-serif text-3xl text-white">{title}</h3>
-              <p className="mt-3 text-sm leading-6 text-white/60">{body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       {testimonials.length ? (
-        <section className="mx-auto max-w-6xl px-5 py-20">
-          <h2 className="font-serif text-4xl text-white md:text-5xl">From clients who said we could quote them.</h2>
+        <section id="reviews" className="mx-auto max-w-7xl scroll-mt-28 px-5 py-16 sm:px-6 md:py-20">
+          <h2 className="font-display text-3xl font-black tracking-tight text-white uppercase italic md:text-5xl">
+            Reviews
+          </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {testimonials.slice(0, 3).map((item) => (
-              <blockquote key={item.id} className="rounded-3xl border border-white/10 p-6">
+              <blockquote key={item.id} className="glass-card p-6">
                 <p className="leading-7 text-white/85">&ldquo;{item.quote}&rdquo;</p>
                 <footer className="mt-4 text-sm text-white/50">
                   {item.name} · {item.city}, {item.state}
@@ -221,56 +294,40 @@ export default async function HomePage({
             ))}
           </div>
         </section>
-      ) : null}
-
-      {posts.length ? (
-        <section className="mx-auto max-w-6xl px-5 py-20">
-          <div className="flex items-end justify-between gap-4">
-            <h2 className="font-serif text-4xl text-white md:text-5xl">Guides</h2>
-            <Link href="/guides" className="text-sm font-semibold text-[#e4c36a]">
-              All guides
-            </Link>
-          </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {posts.slice(0, 3).map((post) => (
-              <Link key={post.id} href={`/guides/${post.slug}`} className="rounded-3xl border border-white/10 p-6 hover:border-[#e4c36a]/70">
-                <h3 className="font-serif text-2xl leading-tight text-white">{post.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/60">{post.excerpt}</p>
-              </Link>
-            ))}
+      ) : (
+        <section id="reviews" className="scroll-mt-28 border-t border-white/10">
+          <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
+            <h2 className="font-display text-2xl font-black tracking-tight text-white uppercase italic md:text-3xl">
+              Reviews
+            </h2>
+            <p className="mt-3 max-w-2xl text-white/65">
+              Client reviews will appear here as they come in. In the meantime, request a quote and we&apos;ll walk through your property together.
+            </p>
           </div>
         </section>
-      ) : null}
+      )}
 
-      <section className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-serif text-4xl text-white md:text-5xl">Before you ask for a quote.</h2>
-        <div className="mt-8">
-          <FaqList items={faqs.slice(0, 5)} />
+      <section className="relative overflow-hidden border-y border-[#ff2b2b]/40 bg-[#120405]">
+        <div className="pointer-events-none absolute inset-x-0 top-0">
+          <div className="glow-rule" />
         </div>
-        <Link href="/faq" className="mt-6 inline-block text-sm font-semibold text-[#e4c36a]">
-          Full FAQ
-        </Link>
-      </section>
-
-      <section className="border-t border-white/10 bg-black">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 lg:grid-cols-2 lg:py-20">
-          <div>
-            <p className="eyebrow text-[#e4c36a]">Free Personalized Quote</p>
-            <h2 className="mt-3 font-serif text-4xl leading-[1.02] text-white md:text-6xl">
-              Let&apos;s Bring Your Holiday Vision to Life.
+        <div className="pointer-events-none absolute inset-x-0 bottom-0">
+          <div className="glow-rule" />
+        </div>
+        <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 py-12 sm:px-6 md:flex-row md:items-center md:justify-between md:py-14">
+          <div className="max-w-2xl">
+            <h2 className="font-display text-2xl font-black tracking-tight text-white uppercase italic sm:text-3xl md:text-4xl">
+              Ready to Light Up Your Holidays?
             </h2>
-            <div className="mt-5 space-y-4 text-lg leading-8 text-white/70">
-              <p>
-                Getting started is easy! Tell us where your property is located and which areas you&apos;d like illuminated. A few exterior photos will help us provide a faster, more accurate estimate.
-              </p>
-              <p>
-                Contact WD Glow today for your free, no-obligation quote. We strive to respond promptly so you can start planning your perfect holiday display.
-              </p>
-            </div>
+            <p className="mt-3 text-sm leading-6 text-white/75 sm:text-base">
+              Get a free, no-obligation quote today and reserve your install date!
+            </p>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-black p-5 md:p-7">
-            <QuoteForm redirectTo="/" error={params.error} />
-          </div>
+          <Link href="/contact" className="btn-glow shrink-0 px-6 py-3.5 text-sm">
+            <CalendarIcon className="h-4 w-4" />
+            Get a Free Quote
+            <ChevronRightIcon className="h-4 w-4" />
+          </Link>
         </div>
       </section>
     </>

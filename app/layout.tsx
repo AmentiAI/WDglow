@@ -1,10 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Outfit } from "next/font/google";
+import { Fraunces, Montserrat, Outfit } from "next/font/google";
 import { siteUrl } from "@/lib/utils";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 const fraunces = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-fraunces" });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-montserrat",
+});
 
 const description =
   "WDGLOW designs, installs, maintains, and removes Christmas lights for homes and businesses in Westerly, across Rhode Island, and through Connecticut.";
@@ -43,7 +49,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${montserrat.variable}`}>
       <body className="antialiased">
         <a className="skip" href="#main">
           Skip to content

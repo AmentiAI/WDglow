@@ -74,14 +74,14 @@ export default async function GalleryPage({
       </div>
       {categories.length ? (
         <div className="mt-8 flex flex-wrap gap-2">
-          <Link href="/gallery" className={`rounded-full border px-3 py-1.5 text-sm ${!category ? "border-[#e4c36a] text-[#e4c36a]" : "border-white/15 text-white"}`}>
+          <Link href="/gallery" className={`rounded-full border px-3 py-1.5 text-sm ${!category ? "border-[#ff3b3b] text-[#ff3b3b]" : "border-white/15 text-white"}`}>
             All
           </Link>
           {categories.map((item) => (
             <Link
               key={item}
               href={`/gallery?category=${encodeURIComponent(item)}`}
-              className={`rounded-full border px-3 py-1.5 text-sm ${category === item ? "border-[#e4c36a] text-[#e4c36a]" : "border-white/15 text-white"}`}
+              className={`rounded-full border px-3 py-1.5 text-sm ${category === item ? "border-[#ff3b3b] text-[#ff3b3b]" : "border-white/15 text-white"}`}
             >
               {item}
             </Link>
@@ -116,7 +116,7 @@ export default async function GalleryPage({
               </figure>
             ))}
           </div>
-          <Link href="/contact" className="mt-6 inline-block rounded-full bg-[#e4c36a] px-5 py-3 text-sm font-semibold text-[#1a1408]">
+          <Link href="/contact" className="btn-glow mt-6 px-5 py-3 text-sm">
             Request a consult
           </Link>
         </>
