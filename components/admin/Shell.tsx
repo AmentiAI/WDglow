@@ -1,18 +1,6 @@
 import Link from "next/link";
+import { AdminNav } from "@/components/admin/AdminNav";
 import { logout } from "@/lib/actions/auth";
-
-const links = [
-  ["Dashboard", "/admin"],
-  ["Leads", "/admin/leads"],
-  ["Customers", "/admin/customers"],
-  ["Quotes", "/admin/quotes"],
-  ["Jobs", "/admin/jobs"],
-  ["Schedule", "/admin/schedule"],
-  ["Gallery", "/admin/gallery"],
-  ["Testimonials", "/admin/testimonials"],
-  ["Guides", "/admin/guides"],
-  ["Settings", "/admin/settings"],
-];
 
 export function AdminShell({
   children,
@@ -24,41 +12,60 @@ export function AdminShell({
   mustChangePassword: boolean;
 }) {
   return (
-    <div className="min-h-screen bg-cream text-ink md:grid md:grid-cols-[230px_1fr]">
-      <aside className="no-print flex flex-col bg-forest text-cream md:min-h-screen">
-        <Link href="/admin" className="px-5 py-5 font-serif text-xl tracking-[0.16em]">
-          WD<span className="text-gold-soft">GLOW</span>
-        </Link>
-        <nav className="grid gap-1 px-3 pb-6">
-          {links.map(([label, href]) => (
-            <Link key={href} href={href} className="rounded-lg px-3 py-2 text-sm text-cream/80 hover:bg-white/5 hover:text-cream">
-              {label}
+    <div className="min-h-screen bg-[#f4f3f0] text-ink md:grid md:grid-cols-[248px_1fr]">
+      <aside className="no-print sticky top-0 z-30 flex flex-col bg-black text-white md:h-screen">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 md:block md:px-5 md:py-6">
+          <Link href="/admin" aria-label="WD Glow admin home" className="block">
+            <img src="/brand/logo.jpg" alt="WD Glow" className="h-11 w-auto md:h-16" />
+          </Link>
+          <div className="flex items-center gap-3 md:hidden">
+            <Link href="/" target="_blank" className="text-xs text-white/60">
+              View site
             </Link>
-          ))}
-        </nav>
-        <form action={logout} className="mt-auto px-5 py-5">
-          <p className="mb-3 text-xs text-cream/50">{name}</p>
-          <button className="text-sm text-gold-soft" type="submit">
-            Sign out
-          </button>
-        </form>
+            <form action={logout}>
+              <button className="rounded-full border border-white/20 px-3 py-1.5 text-xs text-white" type="submit">
+                Sign out
+              </button>
+            </form>
+          </div>
+        </div>
+        <AdminNav />
+        <div className="mt-auto hidden border-t border-white/10 px-5 py-5 md:block">
+          <p className="truncate text-xs text-white/45">{name}</p>
+          <div className="mt-3 flex items-center justify-between">
+            <Link href="/" target="_blank" className="text-sm text-white/70 hover:text-white">
+              View site
+            </Link>
+            <form action={logout}>
+              <button className="text-sm font-semibold text-[#e4c36a] hover:text-[#f0d48a]" type="submit">
+                Sign out
+              </button>
+            </form>
+          </div>
+        </div>
       </aside>
-      <div className="px-4 py-6 md:px-8 md:py-8">
-        {mustChangePassword ? (
-          <p className="no-print mb-4 rounded-xl border border-gold bg-gold/15 px-4 py-3 text-sm">
-            This admin password is still the temporary one. Change it in settings before you share the login.
-          </p>
-        ) : null}
-        {children}
-      </div>
+      <main className="min-w-0 px-4 py-6 md:px-10 md:py-10">
+        <div className="mx-auto max-w-6xl">
+          {mustChangePassword ? (
+            <Link
+              href="/admin/settings"
+              className="no-print mb-6 flex items-center justify-between gap-3 rounded-xl border border-[#e4c36a] bg-[#fbf3dc] px-4 py-3 text-sm text-[#5a4614]"
+            >
+              <span>This admin password is still the temporary one. Change it before you share the login.</span>
+              <span className="shrink-0 font-semibold">Change it</span>
+            </Link>
+          ) : null}
+          {children}
+        </div>
+      </main>
     </div>
   );
 }
 
 export function AdminHeader({ title, action }: { title: string; action?: React.ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <h1 className="font-serif text-4xl">{title}</h1>
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+      <h1 className="font-serif text-3xl tracking-tight md:text-4xl">{title}</h1>
       {action}
     </div>
   );
@@ -66,7 +73,9 @@ export function AdminHeader({ title, action }: { title: string; action?: React.R
 
 export function Saved({ show, text = "Saved." }: { show: boolean; text?: string }) {
   if (!show) return null;
-  return <p className="mb-4 rounded-xl border border-pine/20 bg-white px-4 py-2 text-sm text-pine">{text}</p>;
+  return (
+    <p className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-900">{text}</p>
+  );
 }
 
 const tones: Record<string, string> = {

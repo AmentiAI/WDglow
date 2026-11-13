@@ -70,25 +70,25 @@ export default async function HomePage({
           className="object-cover object-[center_30%]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/15" />
-        <div className="relative z-10 mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-center px-5 py-16">
-          <p className="max-w-3xl text-xs font-semibold tracking-[0.18em] text-[#ffe7a3] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+        <div className="absolute inset-0 bg-black/60 md:bg-transparent md:bg-gradient-to-r md:from-black/80 md:via-black/45 md:to-black/15" />
+        <div className="relative z-10 mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-center px-5 py-10 md:py-16">
+          <p className="max-w-3xl text-[11px] font-semibold tracking-[0.16em] text-[#ffe7a3] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:text-xs sm:tracking-[0.18em]">
             Professional Christmas Light Installation | Rhode Island & Connecticut
           </p>
-          <h1 className="mt-5 max-w-4xl font-serif text-5xl leading-[1.02] font-medium text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.85)] md:text-6xl">
+          <h1 className="mt-4 max-w-4xl font-serif text-[2.35rem] leading-[1.04] font-medium text-white drop-shadow-[0_3px_16px_rgba(0,0,0,0.85)] sm:text-5xl md:mt-5 md:text-6xl">
             Transform Your Property Into a Holiday Masterpiece.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:mt-6 md:text-lg md:leading-8">
             Bring the magic of Christmas to your home or business with WD Glow&apos;s professional holiday lighting services. From custom design and expert installation to seasonal maintenance and removal, we handle every detail so you can enjoy a beautiful, stress-free holiday season.
           </p>
-          <p className="mt-6 font-serif text-2xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:text-3xl">
+          <p className="mt-4 font-serif text-xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] md:mt-6 md:text-3xl">
             Make Your Holidays Shine with WD Glow.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/contact" className="rounded-full bg-[#e4c36a] px-6 py-3.5 text-sm font-semibold text-[#1a1408]">
+          <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap md:mt-8">
+            <Link href="/contact" className="rounded-full bg-[#e4c36a] px-6 py-3.5 text-center text-sm font-semibold text-[#1a1408]">
               Get a free quote
             </Link>
-            <Link href="/service-areas" className="rounded-full border border-white/40 bg-black/20 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm">
+            <Link href="/service-areas" className="rounded-full border border-white/40 bg-black/20 px-6 py-3.5 text-center text-sm font-semibold text-white backdrop-blur-sm">
               See service areas
             </Link>
           </div>
