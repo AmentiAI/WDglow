@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Montserrat, Outfit } from "next/font/google";
+import Script from "next/script";
 import { siteUrl } from "@/lib/utils";
 import "./globals.css";
 
@@ -51,6 +52,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${outfit.variable} ${fraunces.variable} ${montserrat.variable}`}>
       <body className="antialiased">
+        <Script id="gtag-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
+        <Script async src="https://www.googletagmanager.com/gtm.js?id=GTM-KMJZ59XN" strategy="afterInteractive" />
         <a className="skip" href="#main">
           Skip to content
         </a>
