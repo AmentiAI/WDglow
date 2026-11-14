@@ -11,12 +11,10 @@ const links = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/#reviews", label: "Reviews" },
   { href: "/contact", label: "Contact" },
 ];
 
 function isActive(pathname: string, href: string) {
-  if (href === "/#reviews") return false;
   return href === "/" ? pathname === "/" : pathname.startsWith(href) || (href === "/services" && pathname === "/process");
 }
 

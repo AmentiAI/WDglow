@@ -17,7 +17,6 @@ import {
 } from "@/components/site/Icons";
 import { JsonLd } from "@/components/site/JsonLd";
 import { places } from "@/lib/places";
-import { getPublishedTestimonials } from "@/lib/queries";
 import { breadcrumbSchema, faqSchema, localBusinessSchema } from "@/lib/schema";
 import { faqs } from "@/lib/faq";
 import { getSettings } from "@/lib/site";
@@ -96,7 +95,7 @@ const townStrip = [
 ];
 
 export default async function HomePage() {
-  const [settings, testimonials] = await Promise.all([getSettings(), getPublishedTestimonials()]);
+  const settings = await getSettings();
   const featuredTowns = townStrip
     .map((slug) => places.find((place) => place.slug === slug))
     .filter((place) => place !== undefined);
@@ -277,35 +276,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {testimonials.length ? (
-        <section id="reviews" className="mx-auto max-w-7xl scroll-mt-28 px-5 py-16 sm:px-6 md:py-20">
-          <h2 className="font-display text-3xl font-black tracking-tight text-white uppercase italic md:text-5xl">
-            Reviews
-          </h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {testimonials.slice(0, 3).map((item) => (
-              <blockquote key={item.id} className="glass-card p-6">
-                <p className="leading-7 text-white/85">&ldquo;{item.quote}&rdquo;</p>
-                <footer className="mt-4 text-sm text-white/50">
-                  {item.name} · {item.city}, {item.state}
-                </footer>
-              </blockquote>
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section id="reviews" className="scroll-mt-28 border-t border-white/10">
-          <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6">
-            <h2 className="font-display text-2xl font-black tracking-tight text-white uppercase italic md:text-3xl">
-              Reviews
-            </h2>
-            <p className="mt-3 max-w-2xl text-white/65">
-              Client reviews will appear here as they come in. In the meantime, request a quote and we&apos;ll walk through your property together.
-            </p>
-          </div>
-        </section>
-      )}
 
       <section className="relative overflow-hidden border-y border-[#ff2b2b]/40 bg-[#120405]">
         <div className="pointer-events-none absolute inset-x-0 top-0">
