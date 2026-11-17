@@ -31,33 +31,44 @@ export async function createLead(formData: FormData) {
   }
 
   const services = formData.getAll("services").map(String).filter(Boolean);
+  const lead = {
+    name,
+    email,
+    phone,
+    street: field(formData, "street"),
+    city,
+    state,
+    zip: field(formData, "zip"),
+    propertyType: field(formData, "propertyType") || "Home",
+    services: services.join(", ") || "Not specified",
+    timeline: field(formData, "timeline"),
+    message: field(formData, "message").slice(0, 4000),
+    source: `website:${redirectTo}`.slice(0, 160),
+  };
+
+  const delivered = await notifyDiscord(lead);
+
   try {
     const recent = await prisma.lead.count({
       where: { email, createdAt: { gte: new Date(Date.now() - 60 * 60 * 1000) } },
     });
     if (recent >= 3) fail("limit");
-
-    const lead = {
-      name,
-      email,
-      phone,
-      street: field(formData, "street"),
-      city,
-      state,
-      zip: field(formData, "zip"),
-      propertyType: field(formData, "propertyType") || "Home",
-      services: services.join(", ") || "Not specified",
-      timeline: field(formData, "timeline"),
-      message: field(formData, "message").slice(0, 4000),
-      source: `website:${redirectTo}`.slice(0, 160),
-    };
     await prisma.lead.create({ data: lead });
-    await notifyDiscord(lead);
-  } catch {
-    fail("save");
+  } catch (error) {
+    if (isRedirect(error)) throw error;
+    if (!delivered) fail("save");
   }
 
   redirect(`/thank-you?area=${encodeURIComponent(city)}`);
+}
+
+function isRedirect(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "digest" in error &&
+    String((error as { digest?: string }).digest).startsWith("NEXT_REDIRECT")
+  );
 }
 
 async function notifyDiscord(lead: {
@@ -75,7 +86,10 @@ async function notifyDiscord(lead: {
   source: string;
 }) {
   const url = discordWebhookUrl();
-  if (!url) return;
+  if (!url) {
+    console.error("Discord webhook URL is not set");
+    return false;
+  }
 
   const address = [lead.street, `${lead.city}, ${lead.state}`, lead.zip].filter(Boolean).join("\n");
   const description = [
@@ -110,14 +124,20 @@ async function notifyDiscord(lead: {
         ],
       }),
     });
-    if (!response.ok) console.error("Discord webhook failed", response.status);
+    if (!response.ok) {
+      console.error("Discord webhook failed", response.status);
+      return false;
+    }
+    return true;
   } catch (error) {
     console.error("Discord webhook failed", error instanceof Error ? error.message : "request error");
+    return false;
   }
 }
 
 function discordWebhookUrl() {
-  if (process.env.DISCORD_WEBHOOK_URL) return process.env.DISCORD_WEBHOOK_URL;
+  const fromEnv = process.env["DISCORD_WEBHOOK_URL"]?.trim();
+  if (fromEnv) return fromEnv;
   try {
     const line = readFileSync(".env", "utf8")
       .split(/\n/)
